@@ -1,5 +1,6 @@
 package com.lsj.hdmi.materialtest;
 
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuBuilder;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.HorizontalScrollView;
 
 import com.lsj.hdmi.materialtest.bean.HeaderBean;
 
@@ -37,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
         myAdapter.addHeader(new HeaderBean(1,"head",0));
 
 
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(myAdapter);
+        recyclerView.addItemDecoration(new MyDecoration(this,MyDecoration.Horizontal_list));
         this.setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
