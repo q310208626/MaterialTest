@@ -41,7 +41,7 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);
         if (mOrientation==Vertical_list){
             onDrawVertical(c,parent,state);
@@ -86,11 +86,11 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
             if (parent.getAdapter().getItemViewType(i)==0) {
                 View child=parent.getChildAt(i);
                 RecyclerView.LayoutParams parmas= (RecyclerView.LayoutParams) child.getLayoutParams();
-                int left=child.getRight()+parmas.rightMargin;
+                int left=child.getLeft()-parmas.leftMargin;
                 int right=left+mDivider.getIntrinsicHeight();
-                int bottom=parent.getHeight()-parent.getPaddingBottom();
+                int bottom=child.getHeight()+parmas.topMargin+parmas.bottomMargin;
                 int top=parent.getPaddingTop();
-                Rect diverRect = new Rect(left, top+100, right+10, bottom+300);
+                Rect diverRect = new Rect(left, top, right, bottom);
                 c.drawRect(diverRect, paint);
             }
         }
@@ -102,7 +102,7 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
         if (mOrientation==Vertical_list){
             outRect.set(0,0,0,mDivider.getIntrinsicHeight());
         }else if(mOrientation==Horizontal_list){
-            outRect.set(0,0,mDivider.getIntrinsicHeight()+10,0);
+            outRect.set(mDivider.getIntrinsicHeight(),0,0,0);
         }
 
     }
