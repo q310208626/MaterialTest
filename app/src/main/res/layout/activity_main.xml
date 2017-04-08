@@ -18,6 +18,7 @@
         android:layout_below="@id/mian_toolbar"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
+        android:paddingTop="5dp"
         >
 
     </android.support.v7.widget.RecyclerView>

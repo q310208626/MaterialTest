@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.HorizontalScrollView;
 
 import com.lsj.hdmi.materialtest.bean.HeaderBean;
+import com.lsj.hdmi.materialtest.bean.MyLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        MyLayoutManager myLayoutManager=new MyLayoutManager(this,null);
+        recyclerView.setLayoutManager(myLayoutManager);
         recyclerView.setAdapter(myAdapter);
-        recyclerView.addItemDecoration(new MyDecoration(this,MyDecoration.Horizontal_list));
+        recyclerView.addItemDecoration(new MyDecoration(this,MyDecoration.Vertical_list));
         this.setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
