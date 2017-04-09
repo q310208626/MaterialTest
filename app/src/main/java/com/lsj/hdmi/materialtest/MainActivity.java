@@ -1,18 +1,14 @@
 package com.lsj.hdmi.materialtest;
 
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.HorizontalScrollView;
 
 import com.lsj.hdmi.materialtest.bean.HeaderBean;
-import com.lsj.hdmi.materialtest.bean.MyLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;

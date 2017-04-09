@@ -1,6 +1,7 @@
-package com.lsj.hdmi.materialtest.bean;
+package com.lsj.hdmi.materialtest;
 
 import android.content.Context;
+import android.icu.util.MeasureUnit;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -45,6 +46,22 @@ public class MyLayoutManager extends RecyclerView.LayoutManager {
                     offectY+heigth+parmas.topMargin);
             offectY+=heigth+parmas.topMargin+parmas.bottomMargin;
         }
+    }
+
+    @Override
+    public void measureChild(View child, int widthUsed, int heightUsed) {
+        RecyclerView.LayoutParams parmas= (RecyclerView.LayoutParams) child.getLayoutParams();
+        int childWidthMeasureSpec = getChildMeasureSpec(getWidth(),getWidthMode(),
+                getPaddingLeft()+getPaddingRight(), parmas.width,true);
+        int childHeightMeasureSpec = getChildMeasureSpec(getWidth(), getHeight(),
+                getPaddingTop()+getPaddingBottom(), parmas.height,false);
+
+        if(parmas.width== RecyclerView.LayoutParams.MATCH_PARENT){
+            childWidthMeasureSpec = getChildMeasureSpec(getWidth(),getWidthMode(),
+                    getPaddingLeft()+getPaddingRight()+parmas.leftMargin+parmas.rightMargin, parmas.width,false);
+            Log.d(TAG, "measureChild: ---------------------------leftmargin"+parmas.leftMargin);
+        }
+        child.measure(childWidthMeasureSpec,childHeightMeasureSpec);
     }
 
     @Override
