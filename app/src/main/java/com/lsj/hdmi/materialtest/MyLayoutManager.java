@@ -86,7 +86,7 @@ public class MyLayoutManager extends LinearLayoutManager {
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        onLayoutChildren(recycler,state);
+
         View topView=getChildAt(0);
         View bottomView=getChildAt(getChildCount()-1);
         int topLine=getDecoratedTop(topView);
@@ -96,6 +96,7 @@ public class MyLayoutManager extends LinearLayoutManager {
         int verticalSpace=getVerticalSpace();
         Log.d(TAG, "scrollVerticallyBy: ---------------------verticalSpace"+verticalSpace);
         if (viewSpan<verticalSpace){
+            Log.d(TAG, "scrollVerticallyBy: ----------------------viewSpan<verticalSpace");
             return 0;
         }
         LinearLayoutManager layoutManager= (LinearLayoutManager)this;
@@ -103,14 +104,12 @@ public class MyLayoutManager extends LinearLayoutManager {
         int lastVisiablePosition=layoutManager.findLastVisibleItemPosition();
         int lastCompleteVisiablePosition=layoutManager.findLastCompletelyVisibleItemPosition();
         int firstCompleteVisiablePosition=layoutManager.findFirstCompletelyVisibleItemPosition();
-        int maxRow=lastVisiablePosition-firstVisiablePosition;
         Log.d(TAG, "scrollVerticallyBy: ---------------------ViewChildFirst"+firstVisiablePosition);
         Log.d(TAG, "scrollVerticallyBy: ---------------------ViewChildLast"+lastVisiablePosition);
         int childViewCount=getChildCount();
-
-        int delta;
         boolean reachtopBound=firstVisiablePosition==0;
-        boolean reachBottomBound=lastVisiablePosition==state.getItemCount()-1;
+        boolean reachBottomBound=lastVisiablePosition==getChildCount()-1;
+        int delta=0;
         if (dy > 0) {//scrollDown
             //can see the last item
             Log.d(TAG, "scrollVerticallyBy: -------------------------DY>0");
@@ -143,6 +142,9 @@ public class MyLayoutManager extends LinearLayoutManager {
         Log.d(TAG, "scrollVerticallyBy: ----------------------offectDelta"+delta);
         offsetChildrenVertical(delta);
         return -delta;
+//        Log.d(TAG, "scrollVerticallyBy: -----------------------dy"+dy);
+//        offsetChildrenVertical(-dy);
+//        return  dy;
 
     }
 
