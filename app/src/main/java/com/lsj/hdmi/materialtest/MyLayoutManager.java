@@ -2,6 +2,7 @@ package com.lsj.hdmi.materialtest;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.icu.util.MeasureUnit;
 import android.os.Debug;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,13 +52,20 @@ public class MyLayoutManager extends LinearLayoutManager {
             measureChild(childView,0,0);
             int width=getDecoratedMeasuredWidth(childView);
             int heigth=getDecoratedMeasuredHeight(childView);
-
+            Log.d(TAG, "onLayoutChildren: ------------------------getDecoratedMeasuredHeight"+heigth);
             setMeasuredDimension(width,heigth);
-            layoutDecorated(childView,getPaddingLeft()+parmas.leftMargin,
-                    offectY+parmas.topMargin,
-                    width+getPaddingLeft()+parmas.leftMargin,
-                    offectY+heigth+parmas.topMargin);
-            offectY+=heigth+parmas.topMargin+parmas.bottomMargin;
+            int bottom;
+            if (i<childCount-1){
+                bottom=offectY+heigth+parmas.topMargin;
+            }else {
+                bottom=offectY+heigth+parmas.topMargin+parmas.bottomMargin;
+            }
+                layoutDecorated(childView,getPaddingLeft()+parmas.leftMargin,
+                        offectY+parmas.topMargin,
+                        width+getPaddingLeft()+parmas.leftMargin,
+                        bottom);
+            Log.d(TAG, "onLayoutChildren: ----------------------------getBottomDecorationHeight");
+            offectY+=(heigth+parmas.topMargin+parmas.bottomMargin+getBottomDecorationHeight(childView));
             totalHeight+=heigth+parmas.topMargin+parmas.bottomMargin;
         }
 
@@ -66,6 +74,7 @@ public class MyLayoutManager extends LinearLayoutManager {
 
     @Override
     public void measureChild(View child, int widthUsed, int heightUsed) {
+        super.measureChild(child,widthUsed,heightUsed);
         RecyclerView.LayoutParams parmas= (RecyclerView.LayoutParams) child.getLayoutParams();
         int childWidthMeasureSpec = getChildMeasureSpec(getWidth(),getWidthMode(),
                 getPaddingLeft()+getPaddingRight(), parmas.width,true);
@@ -78,6 +87,7 @@ public class MyLayoutManager extends LinearLayoutManager {
         }
         child.measure(childWidthMeasureSpec,childHeightMeasureSpec);
     }
+
 
     @Override
     public boolean canScrollVertically() {
@@ -118,11 +128,21 @@ public class MyLayoutManager extends LinearLayoutManager {
                 int bottomOffect;
                 if(lastCompleteVisiablePosition>=getChildCount()-1){
                     Log.d(TAG, "scrollVerticallyBy: ------------------------realreachBottom");
-                    bottomOffect=getVerticalSpace()-viewSpan+getPaddingBottom();
+                    bottomOffect=getVerticalSpace()-getDecoratedBottom(bottomView)+getPaddingBottom();
+                    Log.d(TAG, "scrollVerticallyBy: ---------------------decorationBottom"+getDecoratedBottom(bottomView));
+                    Log.d(TAG, "scrollVerticallyBy: ---------------------VerticalSpace"+getVerticalSpace());
+                    Log.d(TAG, "scrollVerticallyBy: ---------------------paddingbottom"+getPaddingBottom());
                 }else {
                     Log.d(TAG, "scrollVerticallyBy: ------------------------reachBottomAsFarAsSoon");
-                    bottomOffect=getVerticalSpace()-(viewSpan+getDecoratedMeasuredHeight(bottomView)+getPaddingBottom());
+                    bottomOffect=getVerticalSpace()-(getDecoratedBottom(bottomView)+getDecoratedMeasuredHeight(bottomView)+getPaddingBottom());
                 }
+                if (-dy>bottomOffect){
+                    Log.d(TAG, "scrollVerticallyBy: -----------------(-dy)>bottomoffset");
+                }else {
+                    Log.d(TAG, "scrollVerticallyBy: -----------------(-dy)<bottomoffset");
+                }
+                Log.d(TAG, "scrollVerticallyBy: ------------------------dy"+(-dy));
+                Log.d(TAG, "scrollVerticallyBy: ------------------------bottomoffset"+bottomOffect);
                 delta=Math.max(-dy,bottomOffect);
             }else{
                 delta=-dy;
