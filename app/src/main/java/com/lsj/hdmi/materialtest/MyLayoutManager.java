@@ -125,16 +125,21 @@ public class MyLayoutManager extends LinearLayoutManager {
             Log.d(TAG, "scrollVerticallyBy: -------------------------DY>0");
             if (reachBottomBound){
                 Log.d(TAG, "scrollVerticallyBy: ------------------------reachBottom");
-                int bottomOffect;
+                int bottomOffect = 0;
+                RecyclerView.LayoutParams parmas= (RecyclerView.LayoutParams) bottomView.getLayoutParams();
                 if(lastCompleteVisiablePosition>=getChildCount()-1){
                     Log.d(TAG, "scrollVerticallyBy: ------------------------realreachBottom");
-                    bottomOffect=getVerticalSpace()-getDecoratedBottom(bottomView)+getPaddingBottom();
+                    bottomOffect=getVerticalSpace()-getDecoratedBottom(bottomView)-parmas.bottomMargin;
                     Log.d(TAG, "scrollVerticallyBy: ---------------------decorationBottom"+getDecoratedBottom(bottomView));
                     Log.d(TAG, "scrollVerticallyBy: ---------------------VerticalSpace"+getVerticalSpace());
                     Log.d(TAG, "scrollVerticallyBy: ---------------------paddingbottom"+getPaddingBottom());
-                }else {
+                }
+                else {
                     Log.d(TAG, "scrollVerticallyBy: ------------------------reachBottomAsFarAsSoon");
-                    bottomOffect=getVerticalSpace()-(getDecoratedBottom(bottomView)+getDecoratedMeasuredHeight(bottomView)+getPaddingBottom());
+                    Log.d(TAG, "scrollVerticallyBy: ---------------------decorationBottom"+getDecoratedBottom(bottomView));
+                    Log.d(TAG, "scrollVerticallyBy: ---------------------VerticalSpace"+getVerticalSpace());
+                    Log.d(TAG, "scrollVerticallyBy: ------------------------------getDecoratedMeasuredHeight(bottomView)"+getDecoratedMeasuredHeight(bottomView));
+                    bottomOffect=getVerticalSpace()-(getDecoratedBottom(bottomView)+getDecoratedMeasuredHeight(bottomView)+parmas.bottomMargin);
                 }
                 if (-dy>bottomOffect){
                     Log.d(TAG, "scrollVerticallyBy: -----------------(-dy)>bottomoffset");
@@ -162,21 +167,10 @@ public class MyLayoutManager extends LinearLayoutManager {
         Log.d(TAG, "scrollVerticallyBy: ----------------------offectDelta"+delta);
         offsetChildrenVertical(delta);
         return -delta;
-//        Log.d(TAG, "scrollVerticallyBy: -----------------------dy"+dy);
-//        offsetChildrenVertical(-dy);
-//        return  dy;
-
     }
 
     private int getVerticalSpace(){
-//        WindowManager windowManager= (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-//        Point outSize=new Point();
-//        windowManager.getDefaultDisplay().getSize(outSize);
-//        return outSize.y;
         return getHeight()-getPaddingTop()-getPaddingBottom();
     }
 
-//    private void fillView(RecyclerView.Recycler recycler,){
-//
-//    }
 }
